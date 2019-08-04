@@ -332,5 +332,23 @@ all_characters[!(personnage %in% script_names$personnage)]
 script_names[is.na(personnage), personnage := "Unknown"]
 
 
+# 03 - Jointure avec les dialogues ----------------------------------------
+
+data_GOT <- merge(x = data_GOT,
+                  y = script_names,
+                  by = "Name",
+                  all.x = TRUE)
+
+data_GOT <- merge(x = data_GOT,
+                  y = all_characters,
+                  by = "personnage",
+                  all.x = TRUE)
+
+
+# 04 - Sauvegarde ---------------------------------------------------------
+
+saveRDS(data_GOT,
+        "data/data_GOT.RDS")
+
 
 
