@@ -14,7 +14,7 @@ personnages <- data_GOT[, .(nb_occurences = .N), by = .(Name)]
 personnages[order(nb_occurences, decreasing = TRUE)]
 
 
-# Caractéristique des personnages -----------------------------------------
+# 01 - Caractéristique des personnages -----------------------------------------
 
 # Petit filtre : au moins deux lignes de dialogue pour faire partie des données
 perso_exclus <- personnages[nb_occurences == 1]$Name
@@ -28,7 +28,7 @@ data_GOT <- data_GOT[!(Name %in% perso_exclus)]
 # 1.1 Maison Arryn
 maison_arryn <- data.table(
   personnage = c("Robin Arryn",
-                 "Lysa Tully",
+                 "Lysa Arryn",
                  "Jon Arryn",
                  "Anya Vanbois",
                  "Yohn Royce",
@@ -71,8 +71,7 @@ maison_bolton <- data.table(
 # 1.4 Maison Frey
 maison_frey <- data.table(
   personnage = c("Walder Frey",
-                 "Lothar Frey",
-                 "Walder Rivers"),
+                 "Lothar Frey"),
   allegiance = "Maison Frey"
 )
 
@@ -98,7 +97,7 @@ maison_lannister <- data.table(
                  "Alton Lannister",
                  "Martyn Lannister",
                  "Willem Lannister",
-                 "Gregor Clegane",
+                 "The Mountain",
                  "Amory Lorch",
                  "Polliver",
                  "The Tickler"),
@@ -157,7 +156,6 @@ maison_targaryen <- data.table(
                  "Missandei",
                  "Grey Worm",
                  "Barristan Selmy",
-                 "Barristan Selmy",
                  "Kovarro",
                  "Rakharo",
                  "Doreah",
@@ -185,7 +183,7 @@ maison_tyrell <- data.table(
 
 # 1.12 Peuple de Westeros
 membres_cour <- data.table(
-  personnage = c("Petyr Baelish (Littlefinger)",
+  personnage = c("Littlefinger",
                  "Varys",
                  "Grand Maester Pycelle",
                  "High Sparrow",
@@ -307,7 +305,7 @@ all_characters <- rbindlist(list(maison_arryn,
                             the_watch,
                             peuple_libre))
 
-# Recherche des noms des personnages ----------------------------
+# 02 - Recherche des noms des personnages ----------------------------
 personnages <- unique(data_GOT$Name)
 
 Name_script <- sapply(
@@ -321,9 +319,18 @@ script_names <- data.table(
   personnage = Name_script
 )
 
+# Correction manuelle 
+script_names[Name %in% c("man", "all"), personnage := "Unknown"]
+script_names[Name %in% c("jon"), personnage := "Jon Snow"]
+
+# Verif de la récupération
 sum(is.na(script_names$personnage))/nrow(script_names)
 
-#Correction manuelle 
-script_names[Name %in% c("man", "all"), personnage := "Unknown"]
+all_characters[!(personnage %in% script_names$personnage)]
+# C'est raisonnable, tous les autres seront "Unknown"
+
+script_names[is.na(personnage), personnage := "Unknown"]
+
+
 
 
