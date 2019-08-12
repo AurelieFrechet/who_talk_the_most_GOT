@@ -4,7 +4,7 @@
 library(data.table)
 
 
-data_GOT <- fread("C:/Users/Aurelie/Documents/UnJourUneViz/who_talk_the_most_GOT/data/got_scripts_breakdown.csv",
+data_GOT <- fread("data/got_scripts_breakdown.csv",
                   encoding = "UTF-8")
 
 
