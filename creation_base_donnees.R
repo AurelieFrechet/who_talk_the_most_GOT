@@ -6,6 +6,7 @@ library(data.table)
 
 data_GOT <- fread("data/got_scripts_breakdown.csv",
                   encoding = "UTF-8")
+# source : https://www.kaggle.com/anderfj/game-of-thrones-series-scripts-breakdowns/downloads/game-of-thrones-series-scripts-breakdowns.zip/
 
 
 
